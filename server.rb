@@ -1,50 +1,45 @@
 require 'rubygems'
 require 'sinatra'
-require 'haml'
-require 'linkedin-scraper'
-require 'pdfkit'
+require 'json'
+require 'linkedin_scraper'
 require 'pry'
-require 'tilt/haml'
+require 'rack/cors'
+
+use Rack::Cors do |config|
+  config.allow do |allow|
+    allow.origins '*'
+    allow.resource '/linkedin/*', :headers => :any, :methods => [:get, :post]
+  end
+end
 
 get "/" do
-  haml :index
+  File.read(File.join('public', 'index.html'))
 end
 
-get '/preview/:username' do
+post '/linkedin/:username' do
   @username = params[:username]
   @resume = ::Linkedin::Profile.get_profile("http://www.linkedin.com/in/#{@username}")
+  content_type :json
 
   if @resume
-    @preview = true
-    haml :resume
+    status 200
+    @resume.to_json
   else
-    redirect '/'
+    status 400
+    { result: 'error', message: "Please enter a valid LinkedIn username" }.to_json
   end
 end
 
-post '/render/:username' do
+get '/linkedin/:username' do
   @username = params[:username]
   @resume = ::Linkedin::Profile.get_profile("http://www.linkedin.com/in/#{@username}")
-  @extras = params[:extras]
+  content_type :json
 
   if @resume
-    @preview = false
-    response.headers['Content-Type'] = 'application/pdf'
-
-    kit = PDFKit.new(haml(:resume))
-    kit.stylesheets << File.open(settings.public_folder.to_s + '/style.css')
-    kit.stylesheets << File.open(settings.public_folder.to_s + '/fonts.css')
-    kit.to_pdf
+    status 200
+    @resume.to_json
   else
-    redirect '/'
+    status 400
+    { result: 'error', message: "Please enter a valid LinkedIn username" }.to_json
   end
-end
-
-get '/pdf_test' do
-  response.headers['Content-Type'] = 'application/pdf'
-
-  kit = PDFKit.new(haml(:resume))
-  kit.stylesheets << File.open(settings.public_folder.to_s + '/style.css')
-  kit.stylesheets << File.open(settings.public_folder.to_s + '/fonts.css')
-  kit.to_pdf
 end
