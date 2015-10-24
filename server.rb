@@ -5,6 +5,8 @@ require 'linkedin_scraper'
 require 'pry'
 require 'rack/cors'
 
+set :server, 'webrick'
+
 use Rack::Cors do |config|
   config.allow do |allow|
     allow.origins '*'

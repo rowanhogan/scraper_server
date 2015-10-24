@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/rowanhogan/linkedin-scraper.git
-  revision: 0e2656ced9de1d1be2643bc920182a06e9f65194
+  revision: ef3ffc2f3055b63a2edf8f6cbd6e9cbfd430feca
   specs:
-    linkedin-scraper (0.1.5)
-      mechanize
+    linkedin-scraper (0.1.7)
+      mechanize (~> 2)
 
 GEM
   remote: https://rubygems.org/
