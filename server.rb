@@ -20,7 +20,7 @@ end
 
 post '/linkedin/:username' do
   @username = params[:username]
-  @resume = ::Linkedin::Profile.get_profile("http://www.linkedin.com/in/#{@username}")
+  @resume = ::Linkedin::Profile.get_profile("https://www.linkedin.com/in/#{@username}")
   content_type :json
 
   if @resume
@@ -34,7 +34,7 @@ end
 
 get '/linkedin/:username' do
   @username = params[:username]
-  @resume = ::Linkedin::Profile.get_profile("http://www.linkedin.com/in/#{@username}")
+  @resume = ::Linkedin::Profile.get_profile("https://www.linkedin.com/in/#{@username}")
   content_type :json
 
   if @resume
