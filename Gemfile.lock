@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rowanhogan/linkedin-scraper.git
-  revision: ef3ffc2f3055b63a2edf8f6cbd6e9cbfd430feca
+  revision: a51aef46d6b170f88100d3ff921ff055a9e95b37
   specs:
     linkedin-scraper (0.1.7)
       mechanize (~> 2)
